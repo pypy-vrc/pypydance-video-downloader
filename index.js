@@ -152,6 +152,10 @@ async function downloadVideo(url) {
         '',
     ];
     for (var videoUrl of videoUrls) {
+        if (videoUrl.startsWith('http') === false
+            && videoUrl.length === 11) {
+            videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl;
+        }
         for (var i = 0; i < 3; ++i) {
             try {
                 await downloadVideo(videoUrl);
