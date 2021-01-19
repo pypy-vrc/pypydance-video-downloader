@@ -150,7 +150,7 @@ async function downloadVideo(url) {
 (async function () {
     var videoUrls = [
         '',
-    ]
+    ];
     for (var videoUrl of videoUrls) {
         for (var i = 0; i < 3; ++i) {
             try {
