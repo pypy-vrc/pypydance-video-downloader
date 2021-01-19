@@ -151,12 +151,14 @@ async function downloadVideo(url) {
     var videoUrls = [
         '',
     ];
-    for (var videoUrl of videoUrls) {
+    for (var i = 0; i < videoUrls.length; ++i) {
+        var videoUrl = videoUrls[i];
         if (videoUrl.startsWith('http') === false
             && videoUrl.length === 11) {
             videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl;
         }
-        for (var i = 0; i < 3; ++i) {
+        console.log(`[${i}/${videoUrls.length}] videoUrl=${videoUrl}`);
+        for (var j = 0; j < 3; ++j) {
             try {
                 await downloadVideo(videoUrl);
                 break;
