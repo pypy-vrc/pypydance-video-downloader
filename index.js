@@ -1,5 +1,5 @@
 process.on('unhandledRejection', function (reason, promise) {
-    console.log(new Date(), 'unhandledRejection', { reason, promise });
+    console.log(new Date(), 'unhandledRejection', {reason, promise});
     process.exit();
 });
 
@@ -19,24 +19,22 @@ function exec(command) {
                 stdout,
                 stderr
             });
-        }
-        );
+        });
     });
 }
 
 function spawn(command, ...args) {
     return new Promise(function (resolve, reject) {
-        child_process.spawn(
-            command,
-            args,
-            {
+        child_process
+            .spawn(command, args, {
                 stdio: 'inherit'
-            }
-        ).on('error', function (err) {
-            reject(err);
-        }).on('exit', function (code) {
-            resolve(code);
-        });
+            })
+            .on('error', function (err) {
+                reject(err);
+            })
+            .on('exit', function (code) {
+                resolve(code);
+            });
     });
 }
 
@@ -102,19 +100,19 @@ async function downloadVideo(url) {
         return;
     }
 
-    var { searchParams } = new URL(url);
+    var {searchParams} = new URL(url);
     var videoId = searchParams.get('v');
     if (videoId === null) {
         throw new Error('unable extract video id');
     }
 
     var savePath = `download/${videoId}.mp4`;
-    if (await exists(savePath) === true) {
+    if ((await exists(savePath)) === true) {
         console.log('already exists');
         return;
     }
 
-    var { stdout } = await exec(`youtube-dl -F "${url}"`);
+    var {stdout} = await exec(`youtube-dl -F "${url}"`);
     console.log(stdout);
 
     var format = choiceFormat(stdout);
@@ -148,13 +146,10 @@ async function downloadVideo(url) {
 }
 
 (async function () {
-    var videoUrls = [
-        '',
-    ];
+    var videoUrls = [''];
     for (var i = 0; i < videoUrls.length; ++i) {
         var videoUrl = videoUrls[i];
-        if (videoUrl.startsWith('http') === false
-            && videoUrl.length === 11) {
+        if (videoUrl.startsWith('http') === false && videoUrl.length === 11) {
             videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl;
         }
         console.log(`[${i}/${videoUrls.length}] videoUrl=${videoUrl}`);
